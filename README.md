@@ -4,11 +4,11 @@ This chess game reads a board from a txt file; if it is not given, it initialize
 The points are distrubited like this:
 
 Pawn = 1          // represented as p + (b for white or s for black) such as pb and ps
-Knight = 3        // represented as a + (b for white or s for black)
-Bishop = 3        // represented as f + (b for white or s for black)
-Rook = 5          // represented as k + (b for white or s for black)
-Queen = 9         // represented as v + (b for white or s for black)
-King = 100        // represented as s + (b for white or s for black)
+Knight = 3        // represented as ab as
+Bishop = 3        // represented as fb fs
+Rook = 5          // represented as kb ks
+Queen = 9         // represented as vb vs
+King = 100        // represented as sb ss
 
-Under the time limitations, the program is not calculating the points of pieces under attack yet. It accepts normal pointing. This will be updated later.
+Under the time limitations, the program is not calculating the points of pieces under attack yet. It calculates according to normal scoring. This will be updated later.
 It is recommend to run the program with C++11 standard or higher since extended initializer lists are used.
