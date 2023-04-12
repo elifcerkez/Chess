@@ -201,7 +201,7 @@ int main()
     board.readBoard(fileName + ".txt");		// Read the txt file with the inputted name
 
     // Print the chess board
-    board.printBoard();
+	board.printBoard();
     	cout << endl << endl;
     
 	board.countPieces("b", board.pieceNames);	// Count white pieces ( b defines beyaz)
@@ -209,7 +209,7 @@ int main()
 	
 	board.calculate();
 	
-/*	Control statements that checks if our program runs as expected or not
+/*	Control statements that checks the correctness of the number and type of pieces on the chessboard.
 	for (int i = 0; i < 6; i++)
 	{
 	    cout << "There are " << board.whitePieces[i] << " " << board.pieceNames[i] + "b" << endl;
