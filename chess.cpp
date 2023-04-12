@@ -12,16 +12,16 @@ using namespace std;
 class Chess
 {
 private:
-	// Chess board
+    // Chess board
     string cboard[ROWS][COLS];
 
 public:
 	
-	// Constructor
-	Chess()
-	{
-		initBoard();
-	}
+    // Constructor
+    Chess()
+    {
+	initBoard();
+    }
 
     void initBoard(); 
 
@@ -60,7 +60,7 @@ void Chess :: initBoard()
     {
         for (int j = 0; j < COLS; j++)
         {
-        	// -- for empty squares
+            // -- for empty squares
             cboard[i][j] = "--";
         }
     }
@@ -79,9 +79,9 @@ class ChessBoard : public Chess
 {
 public:
 	
-	void readBoard(string fileName);		// Read the file to get the view of chess board
+    void readBoard(string fileName);		// Read the file to get the view of chess board
     
-    void printBoard();  					// Print the current view of chess board
+    void printBoard();  			// Print the current view of chess board
     
         
     // Define points of pieces in the following order:
@@ -89,9 +89,9 @@ public:
     string pieceNames[6] = {"p", "a", "f", "k", "v", "s"};
     
     float piecePoints[6] = {1,3,3,5,9,100};
-	float pieceunderAttack[6] = {-0.5, -1.5, -1.5, -2.5, -4.5, -50};	// New pointing for the pieces that are under attack
+    float pieceunderAttack[6] = {-0.5, -1.5, -1.5, -2.5, -4.5, -50};	// New scoring for the pieces that are under attack
 	
-	// Arrays that store the counts of the chess pieces, the order is already given
+    // Arrays that store the counts of the chess pieces, the order is already given
     int whitePieces[6] = {0};
     int blackPieces[6] = {0};
     
@@ -109,7 +109,7 @@ public:
 
 void ChessBoard :: readBoard(string fileName)
 {
-	ifstream inputFile(fileName.c_str()); // Defined R and C constants caused a problem, so c_str() is used to avoid it
+    ifstream inputFile(fileName.c_str()); // Defined R and C constants caused a problem, so c_str() is used to avoid it
     string line;
     int i = 0;
 
@@ -132,9 +132,10 @@ void ChessBoard :: readBoard(string fileName)
 
 void ChessBoard :: printBoard()
 {
-    for (int i = 0; i < ROWS; i++) {
+    for (int i = 0; i < ROWS; i++) 
+    {
         for (int j = 0; j < COLS; j++) 
-		{
+	{
             cout << getPiece(i, j) << " ";
         }
         cout << endl;
@@ -148,11 +149,11 @@ void ChessBoard :: countPieces(string color, string pieceNames[])
 	// pn stands for piece name. Each loop finds the count of the chess piece with different name/type
 	for (int pn = 0; pn < 6; pn++)
 	{
-		newPieceNames[pn] = pieceNames[pn] + color;
+	    newPieceNames[pn] = pieceNames[pn] + color;
 	    int count = 0;
 	
 	// Read the whole chess board and find how many pieces correspond to each type
-	// For example, at the beginning, 8 pb, 2 ab, 2 fk, 2 kb, 1 vb, and 1 sb for whites
+	// For example, at the beginning, 8 pb, 2 ab, 2 fb, 2 kb, 1 vb, and 1 sb for whites
 		for (int i = 0; i < ROWS; i++) 
 		{
 			for (int j = 0; j < COLS; j++) 
@@ -186,14 +187,14 @@ void ChessBoard::calculate()
         blackScore += blackPieces[i] * piecePoints[i] + blackunderAttack[i] * pieceunderAttack[i];
     }
 
-	// Print scores for both white and black pieces
+    // Print scores for both white and black pieces
     cout << "White Score: " << whiteScore << endl;
     cout << "Black Score: " << blackScore << endl << endl;
 }
 
 int main()
 {
-	string fileName;
+    string fileName;
     ChessBoard board;
 
     cout << "Please enter the name of the text file that you want it to be read: ";
@@ -201,13 +202,13 @@ int main()
     board.readBoard(fileName + ".txt");		// Read the txt file with the inputted name
 
     // Print the chess board
-	board.printBoard();
-    	cout << endl << endl;
+    board.printBoard();
+    cout << endl << endl;
     
-	board.countPieces("b", board.pieceNames);	// Count white pieces ( b defines beyaz)
-	board.countPieces("s", board.pieceNames);   // Count black pieces ( s defines siyah)
+    board.countPieces("b", board.pieceNames);	// Count white pieces ( b defines beyaz)
+    board.countPieces("s", board.pieceNames);   // Count black pieces ( s defines siyah)
 	
-	board.calculate();
+    board.calculate();
 	
 /*	Control statements that checks the correctness of the number and type of pieces on the chessboard.
 	for (int i = 0; i < 6; i++)
@@ -215,9 +216,9 @@ int main()
 	    cout << "There are " << board.whitePieces[i] << " " << board.pieceNames[i] + "b" << endl;
 	}
     
-    cout << endl << endl;
+        cout << endl << endl;
 
-    for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 6; i++)
 	{
 	    cout << "There are " << board.blackPieces[i] << " " << board.pieceNames[i] + "s" << endl;
 	}
