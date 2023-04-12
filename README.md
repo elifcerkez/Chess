@@ -11,4 +11,4 @@ Queen = 9         // represented as vb vs
 King = 100        // represented as sb ss
 
 Under the time limitations, the program is not calculating the points of pieces under attack yet. It calculates according to normal scoring. This will be updated later.
-It is recommend to run the program with C++11 standard or higher since extended initializer lists are used.
+It is recommended to run the program with C++11 standard or higher since extended initializer lists are used.
