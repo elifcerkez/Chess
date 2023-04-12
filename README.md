@@ -1,6 +1,6 @@
 # Chess
 
-This chess game reads a board from a txt file; if it is not given, it initializes a chess board as default. This program calculates the points of both chess players (white & black). When it is asked to enter a file name, it is expected that the user input the name only. The program itself is going to take it as a txt file.
+This chess game reads a board from a txt file; if it is not given, it initializes a chess board as default. This program calculates the points of both chess players (white & black). When it is asked to enter a file name, it is expected that the user input the name only. For example: "board1" and "board2". The program itself is going to take it as a txt file.
 The points are distrubited like this:
 
 Pawn = 1          // represented as p + (b for white or s for black) such as pb and ps
