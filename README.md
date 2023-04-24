@@ -16,22 +16,22 @@ This program records a snapshot of a chess board taken from the user. If the fil
 	-- -- -- -- sb -- -- -- 
 
 
-	White				              Black
-	2 Pawn on the board.		  3 Pawn on the board.
+	White				Black
+	2 Pawn on the board.		3 Pawn on the board.
 	2 Knight on the board.		1 Knight on the board.
 	0 Bishop on the board.		0 Bishop on the board.
-	0 Rook on the board.		  0 Rook on the board.
-	1 Queen on the board.		  1 Queen on the board.
-	1 King on the board.		  1 King on the board.
+	0 Rook on the board.		0 Rook on the board.
+	1 Queen on the board.		1 Queen on the board.
+	1 King on the board.		1 King on the board.
 
 
-	White				              Black
-	1 Pawn is threatened.		  2 Pawn is threatened.
+	White				Black
+	1 Pawn is threatened.		2 Pawn is threatened.
 	2 Knight is threatened.		1 Knight is threatened.
 	0 Bishop is threatened.		0 Bishop is threatened.
-	0 Rook is threatened.		  0 Rook is threatened.
+	0 Rook is threatened.		0 Rook is threatened.
 	1 Queen is threatened.		1 Queen is threatened.
-	0 King is threatened.		  0 King is threatened.
+	0 King is threatened.		0 King is threatened.
 
 The points are distrubited like this:
  
