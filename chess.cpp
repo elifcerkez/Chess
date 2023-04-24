@@ -807,6 +807,7 @@ int main()
 	board.countPieces("s", board.pieceNames);
 	
 	// Print both players' scores.
+	cout << endl << endl;
 	board.calculate();
 	
 
