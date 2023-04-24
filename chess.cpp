@@ -13,7 +13,8 @@ class Chess
 {
 private:
 	// Chess board
-    string cboard[R][C];
+    // Define the cboard variable as a double-dimensional dynamically generated string array.
+    string **cboard;
 
 public:
 	
@@ -22,6 +23,16 @@ public:
 	{
 		initBoard();
 	}
+
+    // Destructor
+    ~Chess() 
+    {
+        for (int i = 0; i < R; i++) 
+        {
+            delete[] cboard[i];
+        }
+        delete[] cboard;
+    }
 
     void initBoard(); 
 
@@ -38,6 +49,14 @@ public:
 
 void Chess :: initBoard()
 {
+    // For each cboard[i] element, allocate C times memory blocks of string blocks.
+    // As a result, have a board with R rows and C columns.
+    cboard = new string*[R];
+    for (int i = 0; i < R; i++) 
+    {
+        cboard[i] = new string[C];
+    }
+
     // Initialize the chess board with default piece positions.
     cboard[0][0] = "ks";
     cboard[0][1] = "as";
@@ -48,17 +67,13 @@ void Chess :: initBoard()
     cboard[0][6] = "as";
     cboard[0][7] = "ks";
 
-    for (int i = 0; i < C; i++)
-    {
+    for (int i = 0; i < C; i++) {
         cboard[1][i] = "ps";
         cboard[6][i] = "pb";
     }
 
-    for (int i = 2; i < R - 2; i++)
-    {
-        for (int j = 0; j < C; j++)
-        {
-        	// -- for empty squares
+    for (int i = 2; i < R-2; i++) {
+        for (int j = 0; j < C; j++) {
             cboard[i][j] = "--";
         }
     }
@@ -73,23 +88,23 @@ void Chess :: initBoard()
     cboard[7][7] = "kb";
 }
 
-class ChessBoard : public Chess
+class boardAndPiece : public Chess
 {
 private:
     // Define Scores of pieces in the following order:
     // piyon (p)=1, at (a)=3, fil (f)=3, kale (k)=5, vezir (v)=9, sah (s)=100
     float pieceScores[6] = {1,3,3,5,9,100};
     
-    // New scoring for the pieces that are under attack
+    // New scoring for the pieces that are under attack.
 	float pieceUnderAttack[6] = {-0.5, -1.5, -1.5, -2.5, -4.5, -50};
     float whiteScore = 0;
     float blackScore = 0;
     
 public:
-    
+
     // Constructor
     // Read the file to set the view of chess board.
-    ChessBoard(string fileName)
+    boardAndPiece(string fileName)
     {
         ifstream inputFile(fileName.c_str());
         string line;
@@ -98,16 +113,17 @@ public:
         while (i < R)
         {
             int j = 0;
-			// Read each line from the text file.
-            getline(inputFile, line);
-			
-			// Break the line to read chess pieces.
+
+            // Read each line from the text file.
+            getline(inputFile, line);  
+
+            // Break the line to read chess pieces.
             stringstream p(line);
-			
-			// Store them as pieceName.
+
+            // Store them as pieceName.
             string pieceName;
-    
-			// Set the chess piece at the corresponding position on the chess board.
+
+            // Set the chess piece at the corresponding position on the chess board.
             while (p >> pieceName && j < C)
             {
                 setPiece(i, j, pieceName);
@@ -115,18 +131,17 @@ public:
             }
             i++;
         }
-        inputFile.close();
-        
+        inputFile.close();   
     }
 
-    // The names and order that will be used throughout the program
+    // The names and order that will be used throughout the program.
     string pieceNames[6] = {"p", "a", "f", "k", "v", "s"};
 
-	// Arrays that store the counts of the chess pieces, in the same order as above
+	// Arrays that store the counts of the chess pieces, in the same order as above.
     int whitePieces[6] = {0};
     int blackPieces[6] = {0};
     
-    // Arrays that store the counts of the chess pieces under a threat, in the same order as above
+    // Arrays that store the counts of the chess pieces under a threat, in the same order as above.
     int whiteUnderAttack[6] = {0};
     int blackUnderAttack[6] = {0};
 
@@ -136,12 +151,17 @@ public:
 
     void printBoard();
 
+    void attackedbyPawn();
+    void attackedbyKnight();
+    void attackedbyQueen();
+
     // Count chess pieces and store them in arrays.
     void countPieces(string color, string pieceNames[]);				
     void calculate();
 
+};
 
-void attackedbyPawn()
+void boardAndPiece :: attackedbyPawn()
 {
     for (int i = 0; i < R; i++)
     {   
@@ -197,7 +217,7 @@ void attackedbyPawn()
             }
             
             string blackPiece = getPiece(i,j);
-			// Note that "sb" refers to white king, and 's' in "sb" will confuse the program since 's' refers to color black.
+            // Note that "sb" refers to white king, and 's' in "sb" will confuse the program since 's' refers to color black.
             if (blackPiece.find('s') != string::npos && blackPiece != "sb" && threatened[i][j] == false) 
             {
                 // Flag to keep track of whether this piece is under attack
@@ -246,7 +266,7 @@ void attackedbyPawn()
     }
 }
 
-void attackedbyKnight()
+void boardAndPiece :: attackedbyKnight()
 {
     for (int i = 0; i < R; i++)
     {   for (int j = 0; j < C; j++)
@@ -342,7 +362,7 @@ void attackedbyKnight()
     }
 }
 
-void attackedbyQueen()
+void boardAndPiece :: attackedbyQueen()
 {
     // Define a temporary board.
     string copyboard[8][8];
@@ -727,9 +747,8 @@ void attackedbyQueen()
         }
     }
 }
-};
 
-void ChessBoard :: printBoard()
+void boardAndPiece :: printBoard()
 {
     for (int i = 0; i < R; i++) {
         for (int j = 0; j < C; j++) 
@@ -740,7 +759,7 @@ void ChessBoard :: printBoard()
     }
 }
 
-void ChessBoard :: countPieces(string color, string pieceNames[])
+void boardAndPiece :: countPieces(string color, string pieceNames[])
 {
 	string newPieceNames[6];
 	
@@ -772,7 +791,7 @@ void ChessBoard :: countPieces(string color, string pieceNames[])
 	}
 }
 
-void ChessBoard::calculate()
+void boardAndPiece::calculate()
 {
     // Calculate the score for white pieces.
     for (int i = 0; i < 6; i++)
@@ -794,48 +813,49 @@ int main()
 {
 	string fileName;
 
-    cout << "Please enter the name of the text file that you want it to be read: ";
+    cout << "Please enter the name of the text-file that you want it to be read: ";
     cin >> fileName;
     
-    ChessBoard board(fileName + ".txt");
+    boardAndPiece cgame(fileName + ".txt");
     
-    board.attackedbyPawn();
-    board.attackedbyKnight();
-    board.attackedbyQueen();
+    cgame.attackedbyPawn();
+    cgame.attackedbyKnight();
+    cgame.attackedbyQueen();
 
-	board.countPieces("b", board.pieceNames);
-	board.countPieces("s", board.pieceNames);
-	
-	// Print both players' scores.
+	cgame.countPieces("b", cgame.pieceNames);
+	cgame.countPieces("s", cgame.pieceNames);
+
+    // Print both players' scores.
 	cout << endl << endl;
-	board.calculate();
+	cgame.calculate();
 	
 
 //	TEST STATEMENTS FOR THE PROGRAM
-/*
+
     string fullPieceNames[6] = {"Pawn", "Knight", "Bishop", "Rook", "Queen", "King"};
 
-    board.printBoard();
+    cgame.printBoard();
     	cout << endl << endl;
 
-	// Shows how many chess pieces are currently on the board for white and black, separately.
+    // Shows how many chess pieces are currently on the board for white and black, separately.
     cout << "\tWhite" << "\t\t\t\tBlack" << endl;
 	for (int i = 0; i < 6; i++)
 	{
-	    cout << "\t" << board.whitePieces[i] << " " << fullPieceNames[i] + " on the board.";
-        cout << "\t\t" << board.blackPieces[i] << " " << fullPieceNames[i] + " on the board." << endl;
+	    cout << "\t" << cgame.whitePieces[i] << " " << fullPieceNames[i] + " on the board.";
+        cout << "\t\t" << cgame.blackPieces[i] << " " << fullPieceNames[i] + " on the board." << endl;
 	}
+    
     cout << endl << endl;
 
-	// Shows how many chess pieces are currently under threat for white and black, separately.
+    // Shows how many chess pieces are currently under threat for white and black, separately.
     cout << "\tWhite" << "\t\t\t\tBlack" << endl;
     for (int i = 0; i < 6; i++) 
     {
-        cout << "\t" << board.whiteUnderAttack[i] << " " << fullPieceNames[i] << " is threatened." ;
-        cout << "\t\t" << board.blackUnderAttack[i] << " " << fullPieceNames[i] << " is threatened." << endl;
+        cout << "\t" << cgame.whiteUnderAttack[i] << " " << fullPieceNames[i] << " is threatened." ;
+        cout << "\t\t" << cgame.blackUnderAttack[i] << " " << fullPieceNames[i] << " is threatened." << endl;
     }
     
     cout << endl;
-*/
+
     return 0;
 }
